@@ -18,13 +18,18 @@ function App() {
   const { url } = useSelector((state) => state.home);
 
   useEffect(() => {
-    apiTesting();
+    fetchAPIconfig();
   }, []);
 
-  const apiTesting = () => {
-    fetchDataFromApi("/movie/popular").then((res) => {
+  const fetchAPIconfig = () => {
+    fetchDataFromApi("/configuration").then((res) => {
       console.log(res);
-      dispatch(getApiConfiguration(res));
+      const url = {
+        backdrop: res.images.secure_base_url + "original",
+        poster: res.images.secure_base_url + "original",
+        profile: res.images.secure_base_url + "original",
+      };
+      dispatch(getApiConfiguration(url));
     });
   };
   return (
